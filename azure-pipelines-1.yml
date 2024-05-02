@@ -13,7 +13,9 @@ stages:
           command: 'install'
       - task: Npm@1
         inputs:
-          command: 'run build'
+          command: 'custom'
+          customCommand: 'run build'
+    
       - task: PublishBuildArtifacts@1
         inputs:
           PathtoPublish: 'build'
