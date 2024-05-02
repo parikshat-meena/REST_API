@@ -30,10 +30,16 @@ stages:
     pool: 
       vmImage: 'ubuntu-latest'
     steps : 
+    - task: DownloadBuildArtifacts@1
+      inputs:
+        buildType: 'current'
+        downloadType: 'single'
+        artifactName: 'drop'
+        downloadPath: '$(System.ArtifactsDirectory)'
     - task: AzureRmWebAppDeployment@4
       inputs:
         ConnectionType: 'AzureRM'
         appType: 'webApp'
         WebAppName: 
-        packageForLinux: 'build'
+        packageForLinux: '$(System.ArtifactsDirectory)/drop'
           
