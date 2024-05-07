@@ -15,31 +15,16 @@ stages:
         inputs:
           command: 'custom'
           customCommand: 'run build'
-    
+      - task: Npm@1
+        inputs:
+          command: 'publish'
+          workingDir: './dist'
+          publishRegistry: 'useFeed'
+          publishFeed: 'e3860022-0c24-458b-b060-d3495c4bac3c/876ec475-be6e-4d70-9ffe-ec971747c9a1'
       - task: PublishBuildArtifacts@1
         inputs:
           PathtoPublish: 'build'
           ArtifactName: 'drop'
           publishLocation: 'Container'
 
-
-
-- stage: Deploy
-  jobs: 
-  - job: Deploy
-    pool: 
-      vmImage: 'ubuntu-latest'
-    steps : 
-    - task: DownloadBuildArtifacts@1
-      inputs:
-        buildType: 'current'
-        downloadType: 'single'
-        artifactName: 'drop'
-        downloadPath: '$(System.ArtifactsDirectory)'
-    - task: AzureRmWebAppDeployment@4
-      inputs:
-        ConnectionType: 'AzureRM'
-        appType: 'webApp'
-        WebAppName: 
-        packageForLinux: '$(System.ArtifactsDirectory)/drop'
           
